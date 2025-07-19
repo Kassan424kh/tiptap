@@ -7,7 +7,6 @@ import Code from '@tiptap/extension-code';
 import Heading from '@tiptap/extension-heading';
 import {Button as StrapiButton} from '@strapi/design-system';
 import styled, {css, useTheme} from 'styled-components';
-import Icon from 'react-google-material-icons';
 import {CodeBlockLowlight} from '@tiptap/extension-code-block-lowlight';
 import {common, createLowlight} from 'lowlight'
 import {MaterialSymbol} from "react-material-symbols";
@@ -53,37 +52,31 @@ const EditorWrapper = styled.div`
       h1 {
         font-size: 4rem;
         font-weight: bold;
-        margin: 2rem 0 0.5rem 0;
       }
 
       h2 {
         font-size: 3rem;
         font-weight: bold;
-        margin: 0.75rem 0 0.4rem 0;
       }
 
       h3 {
         font-size: 2rem;
         font-weight: bold;
-        margin: 0.5rem 0 0.3rem 0;
       }
 
       h4 {
         font-size: 1.8rem;
         font-weight: bold;
-        margin: 0.5rem 0 0.3rem 0;
       }
 
       h5 {
         font-size: 1.65rem;
         font-weight: bold;
-        margin: 0.5rem 0 0.3rem 0;
       }
 
       h6 {
         font-size: 1.5rem;
         font-weight: bold;
-        margin: 0.5rem 0 0.3rem 0;
       }
 
       p {
@@ -311,7 +304,15 @@ const Button = styled(StrapiButton)`
   touch-action: ${({$disabled}) => $disabled ? 'none' : 'auto'};
 `;
 
-const Tiptap = () => {
+const Tiptap = ({
+                  name,
+                  error,
+                  description,
+                  onChange,
+                  value,
+                  intlLabel,
+                  attribute,
+                }) => {
   const theme = useTheme();
   const editor = useEditor({
     extensions: [
@@ -332,7 +333,13 @@ const Tiptap = () => {
       TaskItem,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
     ],
-    content: '<p>Hello World!</p>',
+    //content: "<h1>Hello World!</h1><p><br/>This is a simple Tiptap editor.</p>",
+    content: value || '<p></p>',
+    onUpdate: ({ editor }) => {
+      if (onChange) {
+        onChange({ target: { name, value: editor.getHTML(), type: attribute.type } })
+      }
+    },
   });
 
   const editorState = useEditorState({
@@ -398,9 +405,9 @@ const Tiptap = () => {
           editor.chain().focus().setTextAlign(alignValue).run();
         },
         options: [
-          { value: 'left', label: 'Align Left' },
-          { value: 'center', label: 'Align Center' },
-          { value: 'right', label: 'Align Right' },
+          { value: 'left', label: 'Left' },
+          { value: 'center', label: 'Center' },
+          { value: 'right', label: 'Right' },
           { value: 'justify', label: 'Justify' },
         ],
         icon: 'format_align_left',
