@@ -1,0 +1,95 @@
+{
+  "version": "0.0.0",
+  "keywords": [],
+  "type": "commonjs",
+  "exports": {
+    "./package.json": "./package.json",
+    "./strapi-admin": {
+      "source": "./admin/src/index.js",
+      "import": "./dist/admin/index.mjs",
+      "require": "./dist/admin/index.js",
+      "default": "./dist/admin/index.js"
+    },
+    "./strapi-server": {
+      "source": "./server/src/index.js",
+      "import": "./dist/server/index.mjs",
+      "require": "./dist/server/index.js",
+      "default": "./dist/server/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "strapi-plugin build",
+    "watch": "strapi-plugin watch",
+    "watch:link": "strapi-plugin watch:link",
+    "verify": "strapi-plugin verify"
+  },
+  "dependencies": {
+    "@floating-ui/react": "^0.27.13",
+    "@radix-ui/react-dropdown-menu": "^2.1.15",
+    "@radix-ui/react-popover": "^1.1.14",
+    "@strapi/design-system": "^2.0.0-rc.29",
+    "@strapi/helper-plugin": "^4.25.22",
+    "@tiptap/extension-code-block-lowlight": "^3.0.7",
+    "@tiptap/extension-highlight": "^3.0.7",
+    "@tiptap/extension-horizontal-rule": "^3.0.7",
+    "@tiptap/extension-image": "^3.0.7",
+    "@tiptap/extension-link": "^3.0.7",
+    "@tiptap/extension-list": "^3.0.7",
+    "@tiptap/extension-placeholder": "^3.0.7",
+    "@tiptap/extension-subscript": "^3.0.7",
+    "@tiptap/extension-superscript": "^3.0.7",
+    "@tiptap/extension-text-align": "^3.0.7",
+    "@tiptap/extension-text-style": "^3.0.7",
+    "@tiptap/extension-typography": "^3.0.7",
+    "@tiptap/extensions": "^3.0.7",
+    "@tiptap/pm": "^3.0.7",
+    "@tiptap/react": "^3.0.7",
+    "@tiptap/starter-kit": "^3.0.7",
+    "lowlight": "^3.3.0",
+    "path": "^0.12.7",
+    "react-google-material-icons": "^1.0.4",
+    "react-hotkeys-hook": "^5.1.0",
+    "react-intl": "^7.1.11"
+  },
+  "devDependencies": {
+    "@strapi/sdk-plugin": "^5.3.2",
+    "@strapi/strapi": "^5.18.1",
+    "@vitejs/plugin-react": "^4.7.0",
+    "prettier": "^3.6.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.1",
+    "sass": "^1.89.2",
+    "sass-embedded": "^1.89.2",
+    "styled-components": "^6.1.19"
+  },
+  "peerDependencies": {
+    "@strapi/sdk-plugin": "^5.3.2",
+    "@strapi/strapi": "^5.18.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.1",
+    "styled-components": "^6.1.19"
+  },
+  "strapi": {
+    "kind": "plugin",
+    "name": "tiptap",
+    "displayName": "TipTap",
+    "description": ""
+  },
+  "name": "tiptap",
+  "description": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Kassan424kh/tiptap-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Kassan424kh/tiptap-plugin/issues"
+  },
+  "homepage": "https://github.com/Kassan424kh/tiptap-plugin#readme",
+  "author": "Khalil Khalil <dev.khalilkhalil@gmail.com>"
+}
