@@ -31,9 +31,21 @@ const EditorWrapper = styled.div`
     background: #19191a;
     overflow: hidden;
     border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     position: relative;
+    width: 100%;
     border: 1px solid ${$isExpanded ? theme.colors.neutral200 : theme.colors.primary600};
 
+    > div:first-child {
+    }
+    > div:last-child {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
     .ProseMirror {
       min-height: 550px;
       margin-bottom: 20px;
@@ -48,35 +60,41 @@ const EditorWrapper = styled.div`
       font-weight: 300;
       max-height: 550px;
       overflow-y: auto;
+      width: 100%;
+      max-width: 640px;
+
+      * {
+        width: 100%;
+      }
 
       h1 {
         font-size: 4rem;
-        font-weight: bold;
+        font-weight: 600;
       }
 
       h2 {
         font-size: 3rem;
-        font-weight: bold;
+        font-weight: 600;
       }
 
       h3 {
         font-size: 2rem;
-        font-weight: bold;
+        font-weight: 600;
       }
 
       h4 {
         font-size: 1.8rem;
-        font-weight: bold;
+        font-weight: 600;
       }
 
       h5 {
         font-size: 1.65rem;
-        font-weight: bold;
+        font-weight: 600;
       }
 
       h6 {
         font-size: 1.5rem;
-        font-weight: bold;
+        font-weight: 600;
       }
 
       p {
@@ -225,6 +243,21 @@ const Toolbar = styled.div`
     gap: 5px;
 
     & > {
+
+      .toolbar-vr {
+        width: 10px;
+        height: 100%;
+        display: flex;
+        align-items: center ;
+        justify-content: center;
+
+        > div {
+          width: 1px;
+          height: 50%;
+          background-color: #ffffff15;
+        }
+      }
+
       .toolbar-select {
         font-size: 15px;
         border-radius: 5px;
@@ -440,6 +473,11 @@ const Tiptap = ({
     ],
     [
       {
+        type: "vr",
+      }
+    ],
+    [
+      {
         command: () => editor.chain().focus().toggleBulletList().run(),
         icon: 'format_list_bulleted',
         isActive: () => editor.isActive('bulletList')
@@ -454,6 +492,11 @@ const Tiptap = ({
         icon: 'checklist',
         isActive: () => editor.isActive('taskList')
       },
+    ],
+    [
+      {
+        type: "vr",
+      }
     ],
     [
       {
@@ -472,6 +515,11 @@ const Tiptap = ({
         icon: 'code_blocks',
         isActive: (state) => state.isCodeBlock
       },
+    ],
+    [
+      {
+        type: "vr",
+      }
     ],
     [
       {
@@ -541,40 +589,50 @@ const Tiptap = ({
                 />
               </div>
             )}
-            {group.map((btn, idx) => (
-              btn.type === 'select' ? (
-                <div className="toolbar-select" key={btn.icon + idx}>
-                  <select
-                    value={btn.value()}
-                    onChange={btn.onChange}
-                    style={{ paddingRight: 30 }}
-                  >
-                    {btn.options.map(opt => (
-                      <option key={opt.value} value={opt.value}>{opt.label}</option>
-                    ))}
-                  </select>
-                  <MaterialSymbol
-                    icon="arrow_drop_down"
-                    size={24}
-                  />
-                </div>
-              ) : (
-                <Button
-                  key={btn.icon + idx}
-                  $active={btn.isActive(editorState)}
-                  $disabled={btn.isDisabled ? btn.isDisabled() : false}
-                  disabled={btn.canUse ? !btn.canUse(editorState) : false}
-                  onClick={btn.command}
-                >
-                  <MaterialSymbol
-                    size={25}
-                    grade={-25}
-                    weight={100}
-                    icon={btn.icon}
-                  />
-                </Button>
-              )
-            ))}
+            {group.map((btn, idx) => {
+              switch (btn.type) {
+                case 'select':
+                  return (
+                    <div className="toolbar-select" key={btn.icon + idx}>
+                      <select
+                        value={btn.value()}
+                        onChange={btn.onChange}
+                        style={{ paddingRight: 30 }}
+                      >
+                        {btn.options.map(opt => (
+                          <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        ))}
+                      </select>
+                      <MaterialSymbol
+                        icon="arrow_drop_down"
+                        size={24}
+                      />
+                    </div>
+                  );
+
+                case 'vr':
+                  return <div className={"toolbar-vr"} key={`vr-${idx}`}>
+                    <div></div>
+                  </div>;
+                default:
+                  return (
+                    <Button
+                      key={btn.icon + idx}
+                      $active={btn.isActive(editorState)}
+                      $disabled={btn.isDisabled ? btn.isDisabled() : false}
+                      disabled={btn.canUse ? !btn.canUse(editorState) : false}
+                      onClick={btn.command}
+                    >
+                      <MaterialSymbol
+                        size={25}
+                        grade={-25}
+                        weight={100}
+                        icon={btn.icon}
+                      />
+                    </Button>
+                  )
+              }
+            })}
           </div>
         ))}
       </Toolbar>
