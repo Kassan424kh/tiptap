@@ -30,7 +30,7 @@ export default {
       name: 'tiptap-input',
       plugin: PLUGIN_ID,
       pluginId: PLUGIN_ID,
-      type: 'string',
+      type: 'richtext',
       intlLabel: {
         id: `${PLUGIN_ID}.label`,
         defaultMessage: 'Tiptap Editor',

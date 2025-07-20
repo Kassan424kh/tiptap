@@ -42,9 +42,6 @@ const EditorWrapper = styled.div`
     }
     > div:last-child {
       width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
     }
     .ProseMirror {
       min-height: 550px;
@@ -61,10 +58,13 @@ const EditorWrapper = styled.div`
       max-height: 550px;
       overflow-y: auto;
       width: 100%;
-      max-width: 640px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
       * {
         width: 100%;
+        max-width: 640px;
       }
 
       h1 {
@@ -243,7 +243,6 @@ const Toolbar = styled.div`
     gap: 5px;
 
     & > {
-
       .toolbar-vr {
         width: 10px;
         height: 100%;
