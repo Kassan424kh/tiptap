@@ -50,6 +50,7 @@
     "@tiptap/pm": "^3.0.7",
     "@tiptap/react": "^3.0.7",
     "@tiptap/starter-kit": "^3.0.7",
+    "hast-util-to-html": "^9.0.5",
     "lowlight": "^3.3.0",
     "path": "^0.12.7",
     "react-google-material-icons": "^1.0.4",
