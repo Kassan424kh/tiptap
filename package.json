@@ -27,11 +27,13 @@
     "verify": "strapi-plugin verify"
   },
   "dependencies": {
+    "@editorjs/editorjs": "^2.30.8",
     "@floating-ui/react": "^0.27.13",
     "@radix-ui/react-dropdown-menu": "^2.1.15",
     "@radix-ui/react-popover": "^1.1.14",
     "@strapi/design-system": "^2.0.0-rc.29",
     "@strapi/helper-plugin": "^4.25.22",
+    "@tiptap/extension-code-block": "^3.0.7",
     "@tiptap/extension-code-block-lowlight": "^3.0.7",
     "@tiptap/extension-highlight": "^3.0.7",
     "@tiptap/extension-horizontal-rule": "^3.0.7",
