@@ -147,6 +147,8 @@ export const EditorWrapper = styled.div`
                 margin: 1.5rem 0;
                 padding: 15px;
                 overflow-x: auto;
+                min-height: max-content;
+                max-height: max-content;
 
                 code {
                     background: none;
