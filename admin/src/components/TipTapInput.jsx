@@ -33,8 +33,7 @@ const Tiptap = ({
 
     const [isOpen, setIsOpen] = useState(false);
     const components = useStrapiApp('MediaLib', state => state.components);
-    const MediaLibraryDialog = components['media-library'];
-
+    const MediaLibraryDialog = Object.keys(components).includes("media-library") ? components['media-library'] : null;
 
     const handleSelect = (files) => {
         const formatted = files.map(file => ({
