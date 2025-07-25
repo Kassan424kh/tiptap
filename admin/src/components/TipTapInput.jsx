@@ -14,6 +14,7 @@ import TextAlign from '@tiptap/extension-text-align';
 import Image from '@tiptap/extension-image';
 import { prefixFileUrlWithBackendUrl } from '@strapi/helper-plugin';
 import { useStrapiApp } from '@strapi/strapi/admin';
+import { useLibrary } from '@strapi/helper-plugin';
 
 import 'react-material-symbols/outlined';
 import {useEffect, useState} from "react";
@@ -32,8 +33,8 @@ const Tiptap = ({
                 }) => {
 
     const [isOpen, setIsOpen] = useState(false);
-    const components = useStrapiApp('MediaLib', state => state.components);
-    const MediaLibraryDialog = components && Object.keys(components).includes("media-library") ? components['media-library'] : undefined;
+    const { components } = useLibrary();
+    const MediaLibraryDialog = components?.['media-library'];
 
     console.log("components", components);
     console.log("MediaLibraryDialog", MediaLibraryDialog);
