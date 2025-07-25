@@ -85,7 +85,23 @@ const Tiptap = ({
             TaskList,
             TaskItem,
             TextAlign.configure({types: ['heading', 'paragraph']}),
-            Image, // Add image extension
+            Image.extend({
+                addAttributes() {
+                    return {
+                        ...this.parent?.(),
+                        width: {
+                            default: 'auto',
+                            parseHTML: element => element.getAttribute('width') || element.style.width || 'auto',
+                            renderHTML: attributes => {
+                                return {
+                                    width: attributes.width,
+                                    style: `width: ${attributes.width};`,
+                                }
+                            },
+                        },
+                    }
+                },
+            }).configure({ selectable: true }), // Add image extension
         ],
         content: editorValue,
         onUpdate: ({editor}) => {
@@ -241,6 +257,30 @@ const Tiptap = ({
         ],
         [
             {
+                command: () => setIsOpen(true),
+                icon: 'image',
+                isActive: () => false,
+                label: 'Insert Image',
+            },
+            {
+                command: () => {
+                    const width = prompt('Enter image width (e.g., 200px or 50%)', '200px');
+                    if (width && editor) {
+                        editor.chain().focus().updateAttributes('image', { width }).run();
+                    }
+                },
+                icon: 'photo_size_select_small', // Use an appropriate icon
+                isActive: () => false,
+                label: 'Set Image Width',
+            }
+        ],
+        [
+            {
+                type: "vr",
+            }
+        ],
+        [
+            {
                 command: () => editor.chain().focus().undo().run(),
                 icon: 'undo',
                 isActive: () => editor.can().undo(),
@@ -252,14 +292,6 @@ const Tiptap = ({
                 icon: 'redo',
                 isActive: () => editor.can().redo(),
                 isDisabled: () => !editor.can().redo()
-            },
-        ],
-        [
-            {
-                command: () => setIsOpen(true),
-                icon: 'image',
-                isActive: () => false,
-                label: 'Insert Image',
             },
         ],
     ];

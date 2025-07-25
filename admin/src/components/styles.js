@@ -20,6 +20,12 @@ export const EditorWrapper = styled.div`
         width: 100%;
         border: 1px solid ${$isExpanded ? theme.colors.neutral200 : theme.colors.primary600};
 
+
+        img.ProseMirror-selectednode {
+            outline: 2px solid #1976d2;
+            border-radius: 2px;
+        }
+
         > div:first-child {
         }
 
