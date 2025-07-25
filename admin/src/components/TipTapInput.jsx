@@ -12,6 +12,8 @@ import TaskList from '@tiptap/extension-task-list';
 import TaskItem from '@tiptap/extension-task-item';
 import TextAlign from '@tiptap/extension-text-align';
 import Image from '@tiptap/extension-image';
+import { prefixFileUrlWithBackendUrl } from '@strapi/helper-plugin';
+import { useStrapiApp } from '@strapi/strapi/admin';
 
 import 'react-material-symbols/outlined';
 import {useEffect, useState} from "react";
@@ -28,6 +30,25 @@ const Tiptap = ({
                     intlLabel,
                     attribute,
                 }) => {
+
+    const [isOpen, setIsOpen] = useState(false);
+    const components = useStrapiApp('MediaLib', state => state.components);
+    const MediaLibraryDialog = components['media-library'];
+
+
+    const handleSelect = (files) => {
+        const formatted = files.map(file => ({
+            id: file.id,
+            url: prefixFileUrlWithBackendUrl(file.url),
+            alt: file.alternativeText || file.name,
+            mime: file.mime,
+        }));
+        if (formatted.length > 0)
+            formatted.forEach(file => editor.chain().focus().setImage({ src: prefixFileUrlWithBackendUrl(file.url) }).run());
+
+        setIsOpen(false);
+    };
+
     const theme = useTheme();
 
     const [editorValue, setEditorValue] = useState(value || '<p></p>');
@@ -235,7 +256,7 @@ const Tiptap = ({
         ],
         [
             {
-                command: () => setShowImageModal(true),
+                command: () => setIsOpen(true),
                 icon: 'image',
                 isActive: () => false,
                 label: 'Insert Image',
@@ -263,13 +284,6 @@ const Tiptap = ({
             if (editor.can().liftListItem('listItem')) {
                 editor.commands.liftListItem('listItem');
             }
-        }
-    };
-
-    const handleImageSelect = (imageUrl) => {
-        if (editor && imageUrl) {
-            editor.chain().focus().setImage({ src: imageUrl }).run();
-            setShowImageModal(false);
         }
     };
 
@@ -354,16 +368,14 @@ const Tiptap = ({
                 editor={editor}
                 onKeyDown={handleKeyDown}
             />
-            {/* Render image modal (stub) */}
-            {showImageModal && (
-                <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', zIndex: 9999 }}>
-                    <div style={{ background: '#fff', margin: '100px auto', padding: 20, borderRadius: 8, maxWidth: 400 }}>
-                        <h3>Select an image from Strapi assets</h3>
-                        {/* TODO: Replace with actual asset picker */}
-                        <input type="text" placeholder="Paste image URL here" onBlur={e => handleImageSelect(e.target.value)} />
-                        <button onClick={() => setShowImageModal(false)}>Cancel</button>
-                    </div>
-                </div>
+
+            {isOpen && MediaLibraryDialog && (
+                <MediaLibraryDialog
+                    allowedTypes={['images', 'files', 'videos']} // optional
+                    multiple={true}                            // optional
+                    onClose={() => setIsOpen(false)}
+                    onSelectAssets={handleSelect}
+                />
             )}
         </EditorWrapper>
     );

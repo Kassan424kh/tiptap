@@ -4,7 +4,6 @@ import { useIntl } from 'react-intl';
 import { getTranslation } from '../utils/getTranslation';
 
 const HomePage = () => {
-  const { formatMessage } = useIntl();
 
   return (
     <Main>
